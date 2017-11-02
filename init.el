@@ -4,7 +4,6 @@
 ;; You may delete these explanatory comments.
 (package-initialize)
 
-
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
