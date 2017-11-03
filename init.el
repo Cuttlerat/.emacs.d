@@ -51,6 +51,7 @@
 (setq make-backup-files nil)
 (setq auto-save-default nil)
 (set-buffer-modified-p nil)
+(setq confirm-nonexistent-file-or-buffer nil)
 (setq save-interprogram-paste-before-kill t)
 (windmove-default-keybindings)
 (xclip-mode 1)
@@ -123,3 +124,11 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
             (define-key evil-normal-state-local-map (kbd "q") 'neotree-hide)
             (define-key evil-normal-state-local-map [escape] 'neotree-hide)
             (define-key evil-normal-state-local-map (kbd "RET") 'neotree-quick-look)))
+(evil-define-command exit-prompt () (if (y-or-n-p "Exit?")
+  (progn
+    (evil-quit-all)
+  )
+  (progn
+    (message nil)
+  )))
+(evil-ex-define-cmd "q[uit]" 'exit-prompt)
