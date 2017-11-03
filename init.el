@@ -22,7 +22,7 @@
     ("810ab30a73c460f5c49ede85d1b9af3429ff2dff652534518fa1de7adc83d0f6" "d507c9e58cb0eb8508e15c8fedc2d4e0b119123fab0546c5fd30cadd3705ac86" "bc40f613df8e0d8f31c5eb3380b61f587e1b5bc439212e03d4ea44b26b4f408a" "365d9553de0e0d658af60cff7b8f891ca185a2d7ba3fc6d29aadba69f5194c7f" "b81bfd85aed18e4341dbf4d461ed42d75ec78820a60ce86730fc17fc949389b2" "1b8d67b43ff1723960eb5e0cba512a2c7a2ad544ddb2533a90101fd1852b426e" default)))
  '(package-selected-packages
    (quote
-    (neotree xclip dockerfile-mode evil-tabs company xterm-frobs powerline all-the-icons evil))))
+    (git-gutter neotree xclip dockerfile-mode evil-tabs company xterm-frobs powerline all-the-icons evil))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -38,6 +38,7 @@
 (require 'neotree)
 (require 'evil-leader)
 (require 'xclip)
+(require 'git-gutter)
 
 ;; Theme
 (load-theme 'naquadah)
@@ -53,8 +54,6 @@
 (setq save-interprogram-paste-before-kill t)
 (windmove-default-keybindings)
 (xclip-mode 1)
-;;(defvaralias 'c-basic-offset 'tab-width)
-;;(defvaralias 'cperl-indent-level 'tab-width)
 (powerline-center-evil-theme)
 (global-linum-mode 1)
 
@@ -69,6 +68,10 @@
      (setq haste-server   "https://hastebin.cuttlerat.ru")))
 (global-evil-leader-mode)
 (evil-leader/set-key "c" 'haste)
+
+;; git-gutter
+(global-git-gutter-mode t)
+(git-gutter:linum-setup)
 
 ;; Keys bindings
 
