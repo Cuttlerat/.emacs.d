@@ -50,7 +50,6 @@
 (setq-default indent-tabs-mode nil)
 (setq make-backup-files nil)
 (setq auto-save-default nil)
-(set-buffer-modified-p nil)
 (setq confirm-nonexistent-file-or-buffer nil)
 (setq save-interprogram-paste-before-kill t)
 (windmove-default-keybindings)
@@ -124,11 +123,26 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
             (define-key evil-normal-state-local-map (kbd "q") 'neotree-hide)
             (define-key evil-normal-state-local-map [escape] 'neotree-hide)
             (define-key evil-normal-state-local-map (kbd "RET") 'neotree-quick-look)))
-(evil-define-command exit-prompt () (if (y-or-n-p "Exit?")
+
+;; Custom :q
+(evil-define-command exit-prompt () (if (buffer-modified-p)
   (progn
-    (evil-quit-all)
+  (if (y-or-n-p "Exit?")
+    (progn
+        (set-buffer-modified-p nil)
+        (evil-quit-all)
+    )
+    (progn
+        (message nil)
+    ))
   )
   (progn
-    (message nil)
+    (evil-quit-all)
   )))
 (evil-ex-define-cmd "q[uit]" 'exit-prompt)
+
+;; Git gutter
+(custom-set-variables
+ '(git-gutter:modified-sign "•") ;; two space
+ '(git-gutter:added-sign "•")    ;; multiple character is OK
+ '(git-gutter:deleted-sign "•"))
