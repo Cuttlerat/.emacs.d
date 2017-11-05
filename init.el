@@ -20,9 +20,12 @@
  '(custom-safe-themes
    (quote
     ("810ab30a73c460f5c49ede85d1b9af3429ff2dff652534518fa1de7adc83d0f6" "d507c9e58cb0eb8508e15c8fedc2d4e0b119123fab0546c5fd30cadd3705ac86" "bc40f613df8e0d8f31c5eb3380b61f587e1b5bc439212e03d4ea44b26b4f408a" "365d9553de0e0d658af60cff7b8f891ca185a2d7ba3fc6d29aadba69f5194c7f" "b81bfd85aed18e4341dbf4d461ed42d75ec78820a60ce86730fc17fc949389b2" "1b8d67b43ff1723960eb5e0cba512a2c7a2ad544ddb2533a90101fd1852b426e" default)))
+ '(git-gutter:added-sign "•")
+ '(git-gutter:deleted-sign "•")
+ '(git-gutter:modified-sign "•")
  '(package-selected-packages
    (quote
-    (docker git-gutter neotree xclip dockerfile-mode evil-tabs company xterm-frobs powerline all-the-icons evil))))
+    (nix-mode docker git-gutter neotree xclip dockerfile-mode evil-tabs company xterm-frobs powerline all-the-icons evil))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -70,8 +73,8 @@
 (evil-leader/set-key "c" 'haste)
 
 ;; git-gutter
-(global-git-gutter-mode t)
 (git-gutter:linum-setup)
+(global-git-gutter-mode t)
 
 ;; Keys bindings
 
@@ -99,10 +102,10 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (define-key evil-normal-state-map (kbd "L") 'windmove-right)
 
 ;; PgUp-PgDown
-(define-key evil-normal-state-map (kbd "K") (lambda ()
+(define-key evil-normal-state-map "\C-k" (lambda ()
                     (interactive)
                     (evil-scroll-up nil)))
-(define-key evil-normal-state-map (kbd "J") (lambda ()
+(define-key evil-normal-state-map "\C-j" (lambda ()
                         (interactive)
                         (evil-scroll-down nil)))
 ;; Tabs
@@ -140,9 +143,35 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
     (evil-quit-all)
   )))
 (evil-ex-define-cmd "q[uit]" 'exit-prompt)
+(evil-ex-define-cmd "q!" '(lambda () (set-buffer-modified-p nil) (evil-quit-all)))
 
 ;; Git gutter
-(custom-set-variables
- '(git-gutter:modified-sign "•") ;; two space
- '(git-gutter:added-sign "•")    ;; multiple character is OK
- '(git-gutter:deleted-sign "•"))
+
+
+;; Move line
+(defun move-line (n)
+  "Move the current line up or down by N lines."
+  (interactive "p")
+  (setq col (current-column))
+  (beginning-of-line) (setq start (point))
+  (end-of-line) (forward-char) (setq end (point))
+  (let ((line-text (delete-and-extract-region start end)))
+    (forward-line n)
+    (insert line-text)
+    ;; restore point to original column in moved line
+    (forward-line -1)
+    (forward-char col)))
+
+(defun move-line-up (n)
+  "Move the current line up by N lines."
+  (interactive "p")
+  (move-line (if (null n) -1 (- n))))
+
+(defun move-line-down (n)
+  "Move the current line down by N lines."
+  (interactive "p")
+  (move-line (if (null n) 1 n)))
+
+(evil-define-key 'normal (current-global-map)
+  (kbd "mj") 'move-line-down
+  (kbd "mk") 'move-line-up)
