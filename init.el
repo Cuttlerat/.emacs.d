@@ -72,10 +72,6 @@
 (global-evil-leader-mode)
 (evil-leader/set-key "c" 'haste)
 
-;; git-gutter
-(git-gutter:linum-setup)
-(global-git-gutter-mode t)
-
 ;; Keys bindings
 
 ;; ESC quits
@@ -146,7 +142,12 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (evil-ex-define-cmd "q!" '(lambda () (set-buffer-modified-p nil) (evil-quit-all)))
 
 ;; Git gutter
-
+(git-gutter:linum-setup)
+(global-git-gutter-mode t)
+(custom-set-variables
+ '(git-gutter:modified-sign "•")
+ '(git-gutter:added-sign "•")
+ '(git-gutter:deleted-sign "•"))
 
 ;; Move line
 (defun move-line (n)
