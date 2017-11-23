@@ -25,7 +25,7 @@
  '(git-gutter:modified-sign "•")
  '(package-selected-packages
    (quote
-    (nix-mode docker git-gutter neotree xclip dockerfile-mode evil-tabs company xterm-frobs powerline all-the-icons evil))))
+    (evil-org markdown-mode terraform-mode nginx-mode nix-mode docker git-gutter neotree xclip dockerfile-mode evil-tabs company xterm-frobs powerline all-the-icons evil))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -42,6 +42,7 @@
 (require 'evil-leader)
 (require 'xclip)
 (require 'git-gutter)
+(require 'evil-org)
 
 ;; Theme
 (load-theme 'naquadah)
@@ -72,9 +73,17 @@
 (global-evil-leader-mode)
 (evil-leader/set-key "c" 'haste)
 
-;; git-gutter
-(git-gutter:linum-setup)
-(global-git-gutter-mode t)
+;; Org-mode
+(add-hook 'org-mode-hook 'evil-org-mode)
+(evil-org-set-key-theme '(navigation insert textobjects additional calendar))
+(setq evil-org-key-theme '(textobjects navigation additional insert todo))
+(define-key evil-normal-state-map "T" 'org-todo) ; mark a TODO item as DONE
+(define-key evil-normal-state-map ";a" 'org-agenda) ; access agenda buffer
+(define-key evil-normal-state-map "-" 'org-cycle-list-bullet) ; change bullet style
+(setq org-todo-keywords
+      '((sequence "TODO" "IN-PROGRESS" "WAITING" "|" "DONE" "CANCELED")))
+(evil-define-key 'normal org-mode-map (kbd "TAB") 'org-cycle)
+
 
 ;; Keys bindings
 
@@ -146,7 +155,8 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (evil-ex-define-cmd "q!" '(lambda () (set-buffer-modified-p nil) (evil-quit-all)))
 
 ;; Git gutter
-
+(git-gutter:linum-setup)
+(global-git-gutter-mode t)
 
 ;; Move line
 (defun move-line (n)
@@ -173,5 +183,5 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (move-line (if (null n) 1 n)))
 
 (evil-define-key 'normal (current-global-map)
-  (kbd "mj") 'move-line-down
-  (kbd "mk") 'move-line-up)
+  (kbd "M-j") 'move-line-down
+  (kbd "M-k") 'move-line-up)
