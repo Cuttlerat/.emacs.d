@@ -157,6 +157,10 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 ;; Git gutter
 (git-gutter:linum-setup)
 (global-git-gutter-mode t)
+(custom-set-variables
+ '(git-gutter:modified-sign "•")
+ '(git-gutter:added-sign "•")
+ '(git-gutter:deleted-sign "•"))
 
 ;; Move line
 (defun move-line (n)
