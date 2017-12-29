@@ -153,6 +153,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   )))
 (evil-ex-define-cmd "q[uit]" 'exit-prompt)
 (evil-ex-define-cmd "q!" '(lambda () (set-buffer-modified-p nil) (evil-quit-all)))
+(evil-ex-define-cmd "Wq" 'evil-save-and-close)
 
 ;; Git gutter
 (git-gutter:linum-setup)
