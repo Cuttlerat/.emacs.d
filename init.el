@@ -25,7 +25,7 @@
  '(git-gutter:modified-sign "•")
  '(package-selected-packages
    (quote
-    (evil-org markdown-mode terraform-mode nginx-mode nix-mode docker git-gutter neotree xclip dockerfile-mode evil-tabs company xterm-frobs powerline all-the-icons evil))))
+    (evil-numbers evil-org markdown-mode terraform-mode nginx-mode nix-mode docker git-gutter neotree xclip dockerfile-mode evil-tabs company xterm-frobs powerline all-the-icons evil))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -158,10 +158,10 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 ;; Git gutter
 (git-gutter:linum-setup)
 (global-git-gutter-mode t)
-(custom-set-variables
- '(git-gutter:modified-sign "•")
- '(git-gutter:added-sign "•")
- '(git-gutter:deleted-sign "•"))
+
+;; Auto increment in evil-mode
+(define-key evil-normal-state-map (kbd "C-a") 'evil-numbers/inc-at-pt)
+(define-key evil-normal-state-map (kbd "C-x") 'evil-numbers/dec-at-pt)
 
 ;; Move line
 (defun move-line (n)
