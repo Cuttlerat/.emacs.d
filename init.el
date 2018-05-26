@@ -25,7 +25,7 @@
  '(git-gutter:modified-sign "•")
  '(package-selected-packages
    (quote
-    (evil-numbers evil-org markdown-mode terraform-mode nginx-mode nix-mode docker git-gutter neotree xclip dockerfile-mode evil-tabs company xterm-frobs powerline all-the-icons evil))))
+    (yasnippet-snippets yasnippet groovy-mode flycheck evil-numbers evil-org markdown-mode terraform-mode nginx-mode nix-mode docker git-gutter neotree xclip dockerfile-mode evil-tabs company xterm-frobs powerline all-the-icons evil))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -43,9 +43,15 @@
 (require 'xclip)
 (require 'git-gutter)
 (require 'evil-org)
+(require 'yasnippet)
+
 
 ;; Theme
 (load-theme 'naquadah)
+
+;; Yasnippet
+(yas-global-mode 1)
+(define-key evil-insert-state-map (kbd "C-f") 'yas-expand)
 
 ;; Basic settings
 (evil-mode 1)
@@ -153,7 +159,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   )))
 (evil-ex-define-cmd "q[uit]" 'exit-prompt)
 (evil-ex-define-cmd "q!" '(lambda () (set-buffer-modified-p nil) (evil-quit-all)))
-(evil-ex-define-cmd "Wq" 'evil-save-and-close)
 
 ;; Git gutter
 (git-gutter:linum-setup)
