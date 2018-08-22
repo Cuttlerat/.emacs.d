@@ -20,9 +20,9 @@
  '(custom-safe-themes
    (quote
     ("810ab30a73c460f5c49ede85d1b9af3429ff2dff652534518fa1de7adc83d0f6" "d507c9e58cb0eb8508e15c8fedc2d4e0b119123fab0546c5fd30cadd3705ac86" "bc40f613df8e0d8f31c5eb3380b61f587e1b5bc439212e03d4ea44b26b4f408a" "365d9553de0e0d658af60cff7b8f891ca185a2d7ba3fc6d29aadba69f5194c7f" "b81bfd85aed18e4341dbf4d461ed42d75ec78820a60ce86730fc17fc949389b2" "1b8d67b43ff1723960eb5e0cba512a2c7a2ad544ddb2533a90101fd1852b426e" default)))
- '(git-gutter:added-sign "•")
- '(git-gutter:deleted-sign "•")
- '(git-gutter:modified-sign "•")
+ ;; '(git-gutter:added-sign "•")
+ ;; '(git-gutter:deleted-sign "•")
+ ;; '(git-gutter:modified-sign "•")
  '(package-selected-packages
    (quote
     (yasnippet-snippets yasnippet groovy-mode flycheck evil-numbers evil-org markdown-mode terraform-mode nginx-mode nix-mode docker git-gutter neotree xclip dockerfile-mode evil-tabs company xterm-frobs powerline all-the-icons evil))))
@@ -44,6 +44,7 @@
 (require 'git-gutter)
 (require 'evil-org)
 (require 'yasnippet)
+(require 'saveplace)
 
 
 ;; Theme
@@ -67,8 +68,12 @@
 (powerline-center-evil-theme)
 (global-linum-mode 1)
 
-;; Files 
+;; Files
 (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
+
+;; Saveplace
+(save-place-mode 1)
+(setq-default save-place t)
 
 ;; Hastebin
 (add-to-list 'load-path "~/.emacs.d/emacs-haste-client")
@@ -85,6 +90,8 @@
 (setq evil-org-key-theme '(textobjects navigation additional insert todo))
 (define-key evil-normal-state-map "T" 'org-todo) ; mark a TODO item as DONE
 (define-key evil-normal-state-map ";a" 'org-agenda) ; access agenda buffer
+(define-key evil-normal-state-map "}" 'org-archive-subtree-default) ; send subtree to archive
+(define-key evil-normal-state-map "n" 'org-open-at-point) ; send subtree to archive
 (define-key evil-normal-state-map "-" 'org-cycle-list-bullet) ; change bullet style
 (setq org-todo-keywords
       '((sequence "TODO" "IN-PROGRESS" "WAITING" "|" "DONE" "CANCELED")))
@@ -161,8 +168,8 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (evil-ex-define-cmd "q!" '(lambda () (set-buffer-modified-p nil) (evil-quit-all)))
 
 ;; Git gutter
-(git-gutter:linum-setup)
-(global-git-gutter-mode t)
+;; (git-gutter:linum-setup)
+;; (global-git-gutter-mode t)
 
 ;; Auto increment in evil-mode
 (define-key evil-normal-state-map (kbd "C-a") 'evil-numbers/inc-at-pt)
